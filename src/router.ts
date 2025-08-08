@@ -25,7 +25,7 @@ import { CreateAgendamentoController } from "./controllers/agendamento/CreateAge
 import { CancelAgendamentoController } from "./controllers/agendamento/CancelAgendamentoController";
 import { ListAgendamentosController } from "./controllers/agendamento/ListAgendamentosController";
 
-// ...
+// --CREDENCIAIS--
 
 import { isAuthenticated } from "./middlewares/isAuthenticated";
 import { isAdmin } from "./middlewares/isAdmin";
