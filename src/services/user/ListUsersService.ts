@@ -16,24 +16,7 @@ class ListUsersService {
       },
     });
 
-    // Busca todos os funcionários (qualquer role que NÃO seja CLIENTE)
-    const funcionarios = await prismaClient.user.findMany({
-      where: {
-        NOT: {
-          role: "CLIENTE",
-        },
-      },
-      select: {
-        id: true,
-        name: true,
-        email: true,
-        role: true,
-        perfilProfissional: true,
-      },
-    });
-
-    //  Retorna um objeto com as duas listas separadas
-    return { clientes, funcionarios };
+    return { clientes };
   }
 }
 

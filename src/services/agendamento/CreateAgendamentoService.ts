@@ -24,7 +24,7 @@ class CreateAgendamentoService {
       );
     }
 
-    // Buscar o serviço para saber sua duração
+    // Buscar o serviço para saber sua duração de cada uma
     const servico = await prismaClient.servico.findUnique({
       where: { id: servicoId },
     });
@@ -43,7 +43,6 @@ class CreateAgendamentoService {
         AND: [
           {
             date: {
-              // Verifica se algum agendamento existente começa ANTES do nosso terminar
               lt: endDate,
             },
           },

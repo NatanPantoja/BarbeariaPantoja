@@ -33,8 +33,8 @@ class ResetPasswordService {
       where: { id: user.id },
       data: {
         password: passwordHash,
-        passwordResetToken: null, // Limpa o token para não ser usado novamente
-        passwordResetExpires: null, // Limpa a data de expiração
+        passwordResetToken: null,
+        passwordResetExpires: null,
       },
     });
 

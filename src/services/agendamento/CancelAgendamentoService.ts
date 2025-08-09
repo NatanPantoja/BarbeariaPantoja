@@ -47,7 +47,7 @@ class CancelAgendamentoService {
     } else if (user.role === "PROFISSIONAL") {
       // Profissional só pode cancelar se o agendamento for da sua agenda
       const profissionalProfile = await prismaClient.profissional.findUnique({
-        where: { userId: user.id },
+        where: { id: user.id },
       });
       if (
         profissionalProfile &&

@@ -14,6 +14,7 @@ import { ListUsersController } from "./controllers/user/ListUsersController";
 // --PROFISSIONAL--
 import { CreateStaffController } from "./controllers/profissional/CreateStaffController";
 import { DeleteStaffController } from "./controllers/profissional/DeleteStaffController";
+import { ListStaffController } from "./controllers/profissional/ListStaffController";
 
 //--SERVIÇO--
 import { CreateServicoController } from "./controllers/servico/CreateServicoController";
@@ -65,6 +66,12 @@ router.delete(
   isAuthenticated,
   isAdmin,
   new DeleteStaffController().handle
+);
+router.get(
+  "/staff",
+  isAuthenticated,
+  isAdmin,
+  new ListStaffController().handle
 );
 
 //-- ROTAS SERVICO --

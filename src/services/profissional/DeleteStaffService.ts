@@ -29,12 +29,6 @@ class DeleteStaffService {
             id: profissional_id,
           },
         }),
-
-        prismaClient.user.delete({
-          where: {
-            id: profissional.userId,
-          },
-        }),
       ]);
 
       // Se a transação for bem-sucedida, não precisamos retornar nada,

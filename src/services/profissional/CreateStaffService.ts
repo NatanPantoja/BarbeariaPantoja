@@ -7,7 +7,6 @@ interface StaffRequest {
   email: string;
   password: string;
   role: Role;
-  // Adicionamos o avatar aqui, ele é opcional
   avatar?: string;
 }
 
@@ -17,52 +16,41 @@ class CreateStaffService {
       throw new Error("Email incorreto");
     }
 
-    if (role === "CLIENTE") {
-      throw new Error("Use a rota de cadastro pública para criar clientes.");
+    // A verificação se cadastro do profissional
+    const profissionalAlreadyExists =
+      await prismaClient.profissional.findUnique({
+        where: { email: email },
+      });
+
+    if (profissionalAlreadyExists) {
+      throw new Error("Um profissional com este e-mail já está cadastrado.");
     }
 
-    const userAlreadyExists = await prismaClient.user.findFirst({
-      where: { email: email },
-    });
-
-    if (userAlreadyExists) {
-      throw new Error("Usuário já cadastrado");
+    // A role de um funcionário não pode ser CLIENTE
+    if (role === "CLIENTE") {
+      throw new Error(
+        "Esta rota é apenas para cadastrar funcionários (ADMIN, PROFISSIONAL, etc)."
+      );
     }
 
     const passwordhash = await hash(password, 8);
 
-    // Agora, a criação do usuário e do perfil profissional acontece em uma transação
-    const newUser = await prismaClient.$transaction(async (prisma) => {
-      // 1. Cria a conta de usuário (login)
-      const user = await prisma.user.create({
-        data: {
-          name: name,
-          email: email,
-          password: passwordhash,
-          role: role,
-        },
-      });
-
-      // 2. Se o cargo for PROFISSIONAL, cria também o perfil com o avatar
-      if (role === "PROFISSIONAL") {
-        await prisma.profissional.create({
-          data: {
-            name: name, // Usamos o mesmo nome para o perfil público
-            userId: user.id,
-            avatar: avatar, // Salvamos o nome do arquivo da imagem
-          },
-        });
-      }
-
-      return user;
+    const profissional = await prismaClient.profissional.create({
+      data: {
+        name: name,
+        email: email,
+        password: passwordhash,
+        role: role,
+        avatar: avatar,
+      },
     });
 
-    // Retornamos apenas os dados seguros do usuário recém-criado
     return {
-      id: newUser.id,
-      name: newUser.name,
-      email: newUser.email,
-      role: newUser.role,
+      id: profissional.id,
+      name: profissional.name,
+      email: profissional.email,
+      role: profissional.role,
+      avatar: profissional.avatar,
     };
   }
 }
