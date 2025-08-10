@@ -2,7 +2,7 @@ import prismaClient from "../../prisma";
 
 class ListServicoService {
   async execute() {
-    const servico = await prismaClient.servico.findMany({
+    const serviços = await prismaClient.servico.findMany({
       select: {
         id: true,
         name: true,
@@ -16,7 +16,7 @@ class ListServicoService {
       },
     });
 
-    return { servico };
+    return { serviços };
   }
 }
 
